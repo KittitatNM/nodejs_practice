@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=title%>
+    </title>
+    <style>
+        .blog:link,
+        .blog:visited {
+            background-color: white;
+            color: black;
+            border: 2px solid green;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .blog:hover,
+        .blog:active {
+            background-color: red;
+            color: white;
+        }
+
+        .blog:hover {
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Details</h1>
+    <h2>
+        <%= blog.title %>
+    </h2>
+    <p>
+        <%= blog.body %>
+    </p>
+    <a data-doc="<%= blog._id %>" class="blog" style="padding:20px">delete</a>
+    <script>
+        const trash = document.querySelector('a.blog')
+        console.log(trash);
+
+        trash.addEventListener('click', (e) => {
+            const endpoint = `/blogs/${trash.dataset.doc}`
+            fetch(endpoint, { method: 'DELETE' })
+                .then((response) => response.json())
+                .then(data => {
+                    window.location.href = data.redirect
+                })
+                .catch(err => { console.log(err) })
+
+        })
+    </script>
+</body>
+
+</html>

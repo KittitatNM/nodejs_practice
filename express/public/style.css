@@ -1,3 +1,18 @@
 body {
     background-color: #a8a8a8;
 }
+
+.blog:link, .blog:visited {
+    background-color: white;
+    color: black;
+    border: 2px solid green;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.blog:hover, .blog:active {
+    background-color: red;
+    color: white;
+}

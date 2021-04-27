@@ -105,6 +105,15 @@ app.get('/blogs', (req, res) => {
         })
 })
 
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id
+    Blog.findById(id)
+        .then(result => {
+            res.render('details', { title: 'Details', blog: result })
+        })
+        .catch(err => { console.log(err) })
+})
+
 app.post('/blogs', (req, res) => {
     // console.log(req.body)
     const blog = new Blog(req.body)
@@ -113,6 +122,16 @@ app.post('/blogs', (req, res) => {
             res.redirect('/blogs')
         })
         .catch(err => console.log(err))
+})
+
+app.delete('/blogs/:id', (req, res) => {
+    const id = req.params.id
+    Blog.findByIdAndDelete(id)
+        .then((result) => {
+            res.json({ redirect: '/blogs' })
+        })
+        .catch(err => { console.log(err) })
+
 })
 
 
