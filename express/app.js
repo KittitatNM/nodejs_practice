@@ -2,7 +2,9 @@ const express = require('express')
 const rootPath = 'C:/Users/SoHoH/Documents/WebApplication/nodejs_practice/server/views';
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const Blog = require('./models/blog');
+
+const blogRoutes = require('./routes/blogRoutes')
+
 
 const dbUri = 'mongodb://localhost:27017/node_crud'
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -95,45 +97,7 @@ app.get('/about-us', (req, res) => {
 })
 
 // blog routes
-app.get('/blogs', (req, res) => {
-    Blog.find()
-        .then((result) => {
-            res.render('index', { title: 'All blogs', blog: result })
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
-
-app.get('/blogs/:id', (req, res) => {
-    const id = req.params.id
-    Blog.findById(id)
-        .then(result => {
-            res.render('details', { title: 'Details', blog: result })
-        })
-        .catch(err => { console.log(err) })
-})
-
-app.post('/blogs', (req, res) => {
-    // console.log(req.body)
-    const blog = new Blog(req.body)
-    blog.save()
-        .then((result) => {
-            res.redirect('/blogs')
-        })
-        .catch(err => console.log(err))
-})
-
-app.delete('/blogs/:id', (req, res) => {
-    const id = req.params.id
-    Blog.findByIdAndDelete(id)
-        .then((result) => {
-            res.json({ redirect: '/blogs' })
-        })
-        .catch(err => { console.log(err) })
-
-})
-
+app.use('/blogs',blogRoutes)
 
 // 404 Page
 // middleware
